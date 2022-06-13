@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
   function hideTabContent() {
     tabsHContent.forEach((item) => {
-      item.style.display = 'none';
+      item.style.display = "none";
     });
 
     tabsH.forEach((item) => {
@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 
   function showTabContent(i = 0) {
-    tabsHContent[i].style.display = 'block';
+    tabsHContent[i].style.display = "block";
     tabsH[i].classList.add("tabheader__item_active");
   }
 
@@ -35,26 +35,26 @@ window.addEventListener("DOMContentLoaded", function () {
   });
 
   //Табы в предложении
-  const prevTab = document.querySelector('.offer__slider-prev');
-  const nextTab = document.querySelector('.offer__slider-next');
-  const tabxOfferContent = document.querySelectorAll('.offer__slide');
+  const prevTab = document.querySelector(".offer__slider-prev");
+  const nextTab = document.querySelector(".offer__slider-next");
+  const tabxOfferContent = document.querySelectorAll(".offer__slide");
   const indexOffer = document.getElementById("current");
 
   function hideTabOfferImage() {
     tabxOfferContent.forEach((item) => {
-      item.style.display = 'none';
+      item.style.display = "none";
     });
   }
 
   function showTabOfferContent(i = 0) {
-    tabxOfferContent[i].style.display.remove = 'none';
-    tabxOfferContent[i].style.display = 'block';
+    tabxOfferContent[i].style.display.remove = "none";
+    tabxOfferContent[i].style.display = "block";
   }
-  
+
   hideTabOfferImage();
   showTabOfferContent();
   let i = 0;
-  nextTab.addEventListener('click', function () {
+  nextTab.addEventListener("click", function () {
     if (i < 3 && i != 3) {
       i++;
       hideTabOfferImage();
@@ -63,7 +63,7 @@ window.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  prevTab.addEventListener('click', function () {
+  prevTab.addEventListener("click", function () {
     if (i > 0 && i < 4) {
       i--;
       hideTabOfferImage();
@@ -71,7 +71,7 @@ window.addEventListener("DOMContentLoaded", function () {
       indexOffer.textContent = `0${i + 1}`;
     }
   });
-  
+
   //Таймер
 
   const deadline = "2022-07-12";
@@ -124,40 +124,40 @@ window.addEventListener("DOMContentLoaded", function () {
 
   //Модальное окно
 
-  const modalTrigger = document.querySelectorAll('[data-modal]');
-  const modal = document.querySelector('.modal');
-  const modalClosedBtn = document.querySelector('[data-closed]');
+  const modalTrigger = document.querySelectorAll("[data-modal]");
+  const modal = document.querySelector(".modal");
+  const modalClosedBtn = document.querySelector("[data-closed]");
 
   function closeModal() {
-    modal.classList.add('hide');
-    modal.classList.remove('show');
-    document.body.style.overflow = '';
+    modal.classList.add("hide");
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
   }
 
   function showModal() {
-    modal.classList.add('show');
-    modal.classList.remove('hide');
-    document.body.style.overflow = 'hidden';
+    modal.classList.add("show");
+    modal.classList.remove("hide");
+    document.body.style.overflow = "hidden";
   }
-  modalTrigger.forEach(btn => {
-    btn.addEventListener('click', () => showModal());
+  modalTrigger.forEach((btn) => {
+    btn.addEventListener("click", () => showModal());
   });
 
-  modalClosedBtn.addEventListener('click', () => closeModal());
+  modalClosedBtn.addEventListener("click", () => closeModal());
 
-  modal.addEventListener('click', (e) => {
+  modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       closeModal();
     }
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.code === 'Escape' && modal.classList.contains('show')) {
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Escape" && modal.classList.contains("show")) {
       closeModal();
     }
   });
 
-  const modalTimerId = setTimeout(openModal, 300000);
+  const modalTimerId = setTimeout(showModal, 300000);
   // Изменил значение, чтобы не отвлекало
 
   function showModalByScroll() {
@@ -165,7 +165,7 @@ window.addEventListener("DOMContentLoaded", function () {
       window.pageYOffset + document.documentElement.clientHeight >=
       document.documentElement.scrollHeight
     ) {
-      openModal();
+      showModal();
       window.removeEventListener("scroll", showModalByScroll);
     }
   }
@@ -207,7 +207,7 @@ window.addEventListener("DOMContentLoaded", function () {
               <div class="menu__item-divider"></div>
               <div class="menu__item-price">
                   <div class="menu__item-cost">Цена:</div>
-                  <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                  <div class="menu__item-total"><span>${this.price}</span> руб/день</div>
               </div>
           `;
       this.parent.append(element);
@@ -219,7 +219,7 @@ window.addEventListener("DOMContentLoaded", function () {
     "vegy",
     'Меню "Фитнес"',
     'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-    9,
+    25,
     ".menu .container"
   ).render();
 
@@ -228,7 +228,7 @@ window.addEventListener("DOMContentLoaded", function () {
     "post",
     'Меню "Постное"',
     "Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
-    14,
+    34,
     ".menu .container"
   ).render();
 
@@ -237,7 +237,7 @@ window.addEventListener("DOMContentLoaded", function () {
     "elite",
     "Меню “Премиум”",
     "В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-    21,
+    48,
     ".menu .container"
   ).render();
 
@@ -299,7 +299,7 @@ window.addEventListener("DOMContentLoaded", function () {
     const prevModalDialog = document.querySelector(".modal__dialog");
 
     prevModalDialog.classList.add("hide");
-    openModal();
+    showModal();
 
     const thanksModal = document.createElement("div");
     thanksModal.classList.add("modal__dialog");
