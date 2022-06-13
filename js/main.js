@@ -1,34 +1,31 @@
 window.addEventListener("DOMContentLoaded", function () {
-  // Tabs
-
-  let tabs = document.querySelectorAll(".tabheader__item"),
-    tabsContent = document.querySelectorAll(".tabcontent"),
-    tabsParent = document.querySelector(".tabheader__items");
+  //Табы в заголовке
+  let tabsH = document.querySelectorAll(".tabheader__item"),
+    tabsHContent = document.querySelectorAll(".tabcontent"),
+    tabsHParent = document.querySelector(".tabheader__items");
 
   function hideTabContent() {
-    tabsContent.forEach((item) => {
-      item.classList.add("hide");
-      item.classList.remove("show", "fade");
+    tabsHContent.forEach((item) => {
+      item.style.display = 'none';
     });
 
-    tabs.forEach((item) => {
+    tabsH.forEach((item) => {
       item.classList.remove("tabheader__item_active");
     });
   }
 
   function showTabContent(i = 0) {
-    tabsContent[i].classList.add("show", "fade");
-    tabsContent[i].classList.remove("hide");
-    tabs[i].classList.add("tabheader__item_active");
+    tabsHContent[i].style.display = 'block';
+    tabsH[i].classList.add("tabheader__item_active");
   }
 
   hideTabContent();
   showTabContent();
 
-  tabsParent.addEventListener("click", function (event) {
+  tabsHParent.addEventListener("click", function (event) {
     const target = event.target;
     if (target && target.classList.contains("tabheader__item")) {
-      tabs.forEach((item, i) => {
+      tabsH.forEach((item, i) => {
         if (target == item) {
           hideTabContent();
           showTabContent(i);
@@ -37,9 +34,47 @@ window.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Timer
+  //Табы в предложении
+  const prevTab = document.querySelector('.offer__slider-prev');
+  const nextTab = document.querySelector('.offer__slider-next');
+  const tabxOfferContent = document.querySelectorAll('.offer__slide');
+  const indexOffer = document.getElementById("current");
 
-  const deadline = "2022-06-11";
+  function hideTabOfferImage() {
+    tabxOfferContent.forEach((item) => {
+      item.style.display = 'none';
+    });
+  }
+
+  function showTabOfferContent(i = 0) {
+    tabxOfferContent[i].style.display.remove = 'none';
+    tabxOfferContent[i].style.display = 'block';
+  }
+  
+  hideTabOfferImage();
+  showTabOfferContent();
+  let i = 0;
+  nextTab.addEventListener('click', function () {
+    if (i < 3 && i != 3) {
+      i++;
+      hideTabOfferImage();
+      showTabOfferContent(i);
+      indexOffer.textContent = `0${i + 1}`;
+    }
+  });
+
+  prevTab.addEventListener('click', function () {
+    if (i > 0 && i < 4) {
+      i--;
+      hideTabOfferImage();
+      showTabOfferContent(i);
+      indexOffer.textContent = `0${i + 1}`;
+    }
+  });
+  
+  //Таймер
+
+  const deadline = "2022-07-12";
 
   function getTimeRemaining(endtime) {
     const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -47,6 +82,10 @@ window.addEventListener("DOMContentLoaded", function () {
       seconds = Math.floor((t / 1000) % 60),
       minutes = Math.floor((t / 1000 / 60) % 60),
       hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    if (t <= 0) {
+      const promotion = document.querySelector(".promotion");
+      promotion.innerHTML = "";
+    }
 
     return {
       total: t,
@@ -55,14 +94,6 @@ window.addEventListener("DOMContentLoaded", function () {
       minutes: minutes,
       seconds: seconds,
     };
-  }
-
-  function getZero(num) {
-    if (num >= 0 && num < 10) {
-      return "0" + num;
-    } else {
-      return num;
-    }
   }
 
   function setClock(selector, endtime) {
@@ -78,10 +109,10 @@ window.addEventListener("DOMContentLoaded", function () {
     function updateClock() {
       const t = getTimeRemaining(endtime);
 
-      days.innerHTML = getZero(t.days);
-      hours.innerHTML = getZero(t.hours);
-      minutes.innerHTML = getZero(t.minutes);
-      seconds.innerHTML = getZero(t.seconds);
+      days.innerHTML = t.days;
+      hours.innerHTML = t.hours;
+      minutes.innerHTML = t.minutes;
+      seconds.innerHTML = t.seconds;
 
       if (t.total <= 0) {
         clearInterval(timeInterval);
@@ -91,41 +122,41 @@ window.addEventListener("DOMContentLoaded", function () {
 
   setClock(".timer", deadline);
 
-  // Modal
+  //Модальное окно
 
-  const modalTrigger = document.querySelectorAll("[data-modal]"),
-    modal = document.querySelector(".modal");
-
-  modalTrigger.forEach((btn) => {
-    btn.addEventListener("click", openModal);
-  });
+  const modalTrigger = document.querySelectorAll('[data-modal]');
+  const modal = document.querySelector('.modal');
+  const modalClosedBtn = document.querySelector('[data-closed]');
 
   function closeModal() {
-    modal.classList.add("hide");
-    modal.classList.remove("show");
-    document.body.style.overflow = "";
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
   }
 
-  function openModal() {
-    modal.classList.add("show");
-    modal.classList.remove("hide");
-    document.body.style.overflow = "hidden";
-    clearInterval(modalTimerId);
+  function showModal() {
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    document.body.style.overflow = 'hidden';
   }
+  modalTrigger.forEach(btn => {
+    btn.addEventListener('click', () => showModal());
+  });
 
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal || e.target.getAttribute("data-close") == "") {
+  modalClosedBtn.addEventListener('click', () => closeModal());
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
       closeModal();
     }
   });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Escape" && modal.classList.contains("show")) {
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape' && modal.classList.contains('show')) {
       closeModal();
     }
   });
 
-<<<<<<< HEAD
   const modalTimerId = setTimeout(openModal, 300000);
   // Изменил значение, чтобы не отвлекало
 
@@ -144,18 +175,11 @@ window.addEventListener("DOMContentLoaded", function () {
 
   class MenuCard {
     constructor(src, alt, title, descr, price, parentSelector, ...classes) {
-=======
-  //Классы для карточек
-
-  class MenuCard {
-    constructor(src, alt ,title , descr, price, parantSelector, ...classes){
->>>>>>> main
       this.src = src;
       this.alt = alt;
       this.title = title;
       this.descr = descr;
       this.price = price;
-<<<<<<< HEAD
       this.classes = classes;
       this.parent = document.querySelector(parentSelector);
       this.transfer = 27;
@@ -186,67 +210,23 @@ window.addEventListener("DOMContentLoaded", function () {
                   <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
               </div>
           `;
-=======
-      this.classes= classes;
-      this.parent = document.querySelector(parantSelector);
-    }
-    render () {
-      const element = document.createElement('div');
-      if (this.classes.length == 0) {
-        this.element = 'menu__item';
-        element.classList.add(this.element);
-        
-      } else {
-        this.classes.forEach(className => element.classList.add(className));
-      }
-      element.innerHTML = `
-        <img src=${this.src} alt=${this.alt}>
-        <h3 class="menu__item-subtitle">${this.title}</h3>
-        <div class="menu__item-descr">${this.descr}</div>
-        <div class="menu__item-divider"></div>
-        <div class="menu__item-price">
-          <div class="menu__item-cost">Цена:</div>
-          <div class="menu__item-total"><span>${this.price}</span> р/день</div>
-        </div>
-      `;
->>>>>>> main
       this.parent.append(element);
     }
   }
 
-<<<<<<< HEAD
-=======
-  let MenuCardArr = [{},{},{}];
-
->>>>>>> main
   new MenuCard(
     "img/tabs/vegy.jpg",
     "vegy",
     'Меню "Фитнес"',
     'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-<<<<<<< HEAD
     9,
     ".menu .container"
   ).render();
 
-=======
-    "780",
-    '.menu .container'
-  ).render();
-  new MenuCard(
-    "img/tabs/elite.jpg",
-    "elite",
-    'Меню “Премиум”',
-    'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-    "1350",
-    '.menu .container'
-  ).render();
->>>>>>> main
   new MenuCard(
     "img/tabs/post.jpg",
     "post",
     'Меню "Постное"',
-<<<<<<< HEAD
     "Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
     14,
     ".menu .container"
@@ -337,11 +317,4 @@ window.addEventListener("DOMContentLoaded", function () {
       closeModal();
     }, 4000);
   }
-=======
-    'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-    "690",
-    '.menu .container'
-  ).render();
-
->>>>>>> main
 });
